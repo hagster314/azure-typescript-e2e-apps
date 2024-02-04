@@ -6,6 +6,7 @@ import { convertFileToArrayBuffer } from './lib/convert-file-to-arraybuffer';
 
 import axios from 'axios';
 import './App.css';
+import AssessmentForm from './AssessmentForm';
 
 const API_SERVER = import.meta.env.VITE_API_SERVER as string;
 
@@ -84,8 +85,10 @@ function App() {
     <>
       <ErrorBoundary>
         <Box m={4}>
-          <Typography variant="h4" gutterBottom>Upload file to Azure Storage</Typography>
-          <Typography variant="h5" gutterBottom>with SAS token</Typography>
+          <Typography variant="h4" gutterBottom>SKIRNIR</Typography>
+          <Typography variant="h5" gutterBottom>wound assessment</Typography>
+
+          <AssessmentForm />
           <Typography variant="body1" gutterBottom><b>Container: {containerName}</b></Typography>
 
           <Box display="block" justifyContent="left" alignItems="left" flexDirection="column" my={4}>
