@@ -42,7 +42,7 @@ const scores: OptionScores = {
 };
 
 interface AssessmentFormProps {
-  onSubmit: (selectedOptions: SelectedOptions, selectedScores: OptionScores) => void;
+  onSubmit: (selectedOptions: SelectedOptions, selectedScores: OptionScores, totalScore: number) => void;
 }
 
 const AssessmentForm: React.FC<AssessmentFormProps> = ({ onSubmit }) => {
@@ -54,12 +54,14 @@ const AssessmentForm: React.FC<AssessmentFormProps> = ({ onSubmit }) => {
 
   const handleSubmit = () => {
     const selectedScores: OptionScores = {};
+    let totalScore = 0;
     Object.entries(selectedOptions).forEach(([category, option]) => {
       selectedScores[category] = scores[option];
+      totalScore += scores[option];
     });
     
-    // Pass the selected options and scores back to the parent component
-    onSubmit(selectedOptions, selectedScores);
+    // Pass the selected options, scores, and total score back to the parent component
+    onSubmit(selectedOptions, selectedScores, totalScore);
   };
   
   return (
