@@ -7,7 +7,8 @@ import axios from 'axios';
 import './App.css';
 // Import or define SelectedOptions and OptionScores types based on your AssessmentForm
 import AssessmentForm, { SelectedOptions, OptionScores } from './AssessmentForm';
-
+import { Dialog, DialogTitle, DialogContent, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 const API_SERVER = import.meta.env.VITE_API_SERVER;
@@ -24,6 +25,8 @@ function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadStatus, setUploadStatus] = useState<string>('');
   const [list, setList] = useState<string[]>([]);
+  const [openDialog, setOpenDialog] = useState<boolean>(false); 
+  const [dialogContent, setDialogContent] = useState<{type: 'image' | 'csv', content: string} | null>(null);
 
   useEffect(() => {
     fetchImages();
@@ -78,6 +81,16 @@ function App() {
     setSelectedFile(event.target.files[0]);
     setUploadStatus('');
   };
+  const handleItemClick = async (item: string) => {
+    if (item.endsWith('.csv')) {
+      const response = await fetch(item); // Assuming the item URL is directly accessible
+      const csvText = await response.text();
+      setDialogContent({type: 'csv', content: csvText});
+    } else {
+      setDialogContent({type: 'image', content: item});
+    }
+    setOpenDialog(true);
+  };
 
   // Adapted function to be used with the AssessmentForm submission
   const onFormSubmit = async (selectedOptions: SelectedOptions, selectedScores: OptionScores) => {
@@ -125,21 +138,52 @@ return (
       </Box>
       {uploadStatus && <Typography variant="body2" gutterBottom my={2} sx={{ textAlign: 'center' }}>{uploadStatus}</Typography>}
 
-      <Grid container spacing={2} my={4} sx={{ justifyContent: 'center', maxWidth: '100%' }}>
-        {list.map((item) => (
-          <Grid item xs={12} sm={6} md={4} key={item} sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Card sx={{ width: '100%', maxWidth: '300px', m: 1 }}>
-              {item.endsWith('.csv') ? (
-                <Box p={2} sx={{ textAlign: 'center' }}>
-                  <Typography variant="body2">{item}</Typography>
-                </Box>
-              ) : (
-                <CardMedia component="img" image={item} alt={item} />
-              )}
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+  <Grid container spacing={2} my={4} sx={{ justifyContent: 'center', maxWidth: '100%' }}>
+  {list.map((item) => (
+    <Grid item xs={12} sm={6} md={4} key={item} sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Card 
+        sx={{ width: '100%', maxWidth: '300px', m: 1, cursor: 'pointer' }} 
+        onClick={() => {
+          handleItemClick(item)
+          setOpenDialog(true);
+        }}
+      >
+        {item.endsWith('.csv') ? (
+          <Box p={2} sx={{ textAlign: 'center' }}>
+            <Typography variant="body2">{item}</Typography>
+          </Box>
+        ) : (
+          <CardMedia component="img" image={item} alt={item} />
+        )}
+      </Card>
+    </Grid>
+  ))}
+</Grid>
+<Dialog onClose={() => setOpenDialog(false)} open={openDialog} fullWidth maxWidth="md">
+  <DialogTitle>
+    View Content
+    <IconButton onClick={() => setOpenDialog(false)} style={{ position: 'absolute', right: 8, top: 8 }}>
+      <CloseIcon />
+    </IconButton>
+  </DialogTitle>
+  <DialogContent>
+    {dialogContent?.type === 'image' ? (
+      <Box
+        component="img"
+        sx={{
+          maxHeight: '80vh',
+          maxWidth: '100%',
+        }}
+        src={dialogContent.content}
+        alt="Selected"
+      />
+    ) : (
+      <Typography sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+        {dialogContent?.content}
+      </Typography>
+    )}
+  </DialogContent>
+</Dialog>
     </Box>
   </ErrorBoundary>
 );
