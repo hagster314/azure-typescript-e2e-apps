@@ -1,39 +1,27 @@
-/* debug red border outline */
-
-/*
-* {
-    border: 1px solid red;
-}
-*/
-
-.container {
-    margin: 1em;
-    padding: 1em;
+/* App.css */
+body {
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.4;
 }
 
-button {
-    border: 1px solid blue;
-    border-radius: 5%;
-    background-color: lightblue;
+/* Overrides or extras to adjust MUI components more granularly if needed */
+.AssessmentForm-container {
+  max-width: 600px;
+  width: 100%;
+  margin: auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 }
-.select-file input {
 
-    border-radius: 5%;
+/* Mild card shadow for a soft depth effect */
+.MuiCard-root {
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
-input::-webkit-file-upload-button {
-    background-color: transparent;
-  }
 
-/* Make the status box auto-size */
-.get-sas-token .status {
-
-    display: flex;
-    flex-direction: column;
-
-}
-.get-sas-token .status .text{
-
-    flex-grow: 1;
-    background-color: pink;
-   
+/* Ensure input fields, selects, and buttons are not too tight */
+.MuiButton-root, .MuiInputBase-root, .MuiSelect-root {
+  margin: 8px 0;
 }

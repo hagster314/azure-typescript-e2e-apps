@@ -63,51 +63,62 @@ const AssessmentForm: React.FC<AssessmentFormProps> = ({ onSubmit }) => {
   };
   
   return (
-    <Box className="AssessmentForm-container">
-      <Grid container spacing={2} justifyContent="center">
-        {Object.entries(options).map(([category, optionsList]) => (
-          <Grid item xs={12} key={category}>
-            <Typography variant="h6" gutterBottom>
-              {category}
-            </Typography>
-            <Box className="AssessmentForm-category">
-              {optionsList.map(option => (
-                <Box
-                  key={option}
-                  onClick={() => handleOptionChange(category, option)}
-                  className={`AssessmentForm-option ${selectedOptions[category] === option ? 'selected' : ''}`}
-                >
-                  {`${option} (Score: ${scores[option]})`}
-                </Box>
-              ))}
+    <Box sx={{ width: '100%', maxWidth: '600px', my: 4, mx: 'auto' }}>
+  <Grid container spacing={2} justifyContent="center">
+    {Object.entries(options).map(([category, optionsList]) => (
+      <Grid item xs={12} key={category}>
+        <Typography variant="h6" gutterBottom sx={{ textAlign: 'center', fontWeight: 'bold' }}>
+          {category.replace(/([A-Z])/g, ' $1').trim()} {/* Adds space before capital letters for readability */}
+        </Typography>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+          {optionsList.map(option => (
+            <Box
+              key={option}
+              sx={{
+                cursor: 'pointer',
+                borderRadius: '5px',
+                border: `1px solid ${selectedOptions[category] === option ? '#1976d2' : '#ccc'}`,
+                bgcolor: selectedOptions[category] === option ? '#1976d2' : '',
+                color: selectedOptions[category] === option ? '#fff' : '',
+                p: 1,
+                m: 1,
+                '&:hover': {
+                  borderColor: '#1976d2',
+                },
+              }}
+              onClick={() => handleOptionChange(category, option)}
+            >
+              {option}
             </Box>
-          </Grid>
-        ))}
-        <Grid item xs={12}>
-          <Button variant="contained" color="primary" onClick={handleSubmit} fullWidth>
-            Submit
-          </Button>
-        </Grid>
-        <Grid item xs={12}>
-          {Object.keys(selectedOptions).length > 0 && (
-            <Paper elevation={2} className="AssessmentForm-paper">
-              <List>
-                {Object.entries(selectedOptions).map(([category, option]) => (
-                  <ListItem key={category}>
-                    {`${category}: ${option} (Score: ${scores[option]})`}
-                  </ListItem>
-                ))}
-              </List>
-              <Box className="AssessmentForm-totalScore">
-                <Typography variant="h5" component="p">
-                  Total Score: {Object.values(selectedOptions).reduce((total, current) => total + scores[current], 0)}
-                </Typography>
-              </Box>
-            </Paper>
-          )}
-        </Grid>
+          ))}
+        </Box>
       </Grid>
-    </Box>
+    ))}
+    <Grid item xs={12}>
+      <Button variant="contained" color="primary" onClick={handleSubmit} fullWidth sx={{ mt: 2 }}>
+        Submit
+      </Button>
+    </Grid>
+    <Grid item xs={12}>
+      {Object.keys(selectedOptions).length > 0 && (
+        <Paper elevation={2} sx={{ p: 2, mt: 2 }}>
+          <List>
+            {Object.entries(selectedOptions).map(([category, option]) => (
+              <ListItem key={category}>
+                {`${category}: ${option} (Score: ${scores[option]})`}
+              </ListItem>
+            ))}
+          </List>
+          <Box sx={{ mt: 2, textAlign: 'center' }}>
+            <Typography variant="h5" component="p">
+              Total Score: {Object.values(selectedOptions).reduce((total, current) => total + scores[current], 0)}
+            </Typography>
+          </Box>
+        </Paper>
+      )}
+    </Grid>
+  </Grid>
+</Box>
   );
 };
 

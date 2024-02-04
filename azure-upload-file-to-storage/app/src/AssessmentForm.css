@@ -1,60 +1,44 @@
 /* AssessmentForm.css */
 
-
+/* AssessmentForm.css */
 
 .AssessmentForm-container {
-    padding: 20px;
-    max-width: 800px; /* Adjust based on your design */
-    margin: auto;
-  }
-  
-  .AssessmentForm-paper {
-    margin-top: 20px;
-    padding: 20px;
-  }
-  
-  .AssessmentForm-category {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 10px;
-    margin-bottom: 30px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+}
 
-  
-  .AssessmentForm-totalScore {
-    margin-top: 30px;
-    padding: 15px;
-    background-color: #e8eaf6; /* Light background color to make it stand out */
-    border-radius: 4px;
-    text-align: center;
-  }
-  
-  /* Add additional styles as needed */
-  /* AssessmentForm.css */
+.AssessmentForm-category {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
 .AssessmentForm-option {
-    padding: 8px;
-    text-align: center;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-    cursor: pointer;
-    user-select: none; /* Prevent text selection on click */
-    height: 36px; /* Adjust based on your design */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 8px; /* Add spacing between option tiles */
-  }
-  
-  .AssessmentForm-option:hover {
-    border-color: #3b6bc2; /* A color that stands out */
-    background-color: rgba(82, 108, 255, 0.1); /* Light hover background color */
-  }
-  
-  .AssessmentForm-option.selected {
-    background-color: #3b6bc2; /* A color that stands out */
-    color: white; /* Text color for selected option */
-    border-color: #3b6bc2; /* Border color to match the background */
-  }
+  margin: 5px;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.AssessmentForm-option.selected, .AssessmentForm-option:hover {
+  border-color: #1976d2;
+  background-color: #1976d2;
+  color: white;
+}
+
+.AssessmentForm-paper {
+  margin-top: 20px;
+}
+
+.AssessmentForm-totalScore {
+  margin-top: 20px;
+  text-align: center;
+}

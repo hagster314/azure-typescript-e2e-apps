@@ -97,41 +97,51 @@ function App() {
     handleFileUpload(csvFile);
   };
 
-  return (
-    <ErrorBoundary>
-      <Box m={4}>
-        <Typography variant="h4" gutterBottom>SKIRNIR</Typography>
-        <Typography variant="h5" gutterBottom>Log</Typography>
+// App.tsx component
 
-        <AssessmentForm onSubmit={onFormSubmit} />
+return (
+  <ErrorBoundary>
+    <Box m={4} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <Typography variant="h4" gutterBottom component="h1" sx={{ textAlign: 'center' }}>
+        SKIRNIR
+      </Typography>
+      <Typography variant="h5" gutterBottom component="h2" sx={{ textAlign: 'center' }}>
+        Log
+      </Typography>
 
-        <Typography variant="body1" gutterBottom><b>Image: {containerName}</b></Typography>
-        <Button variant="contained" component="label">Select File
+      <AssessmentForm onSubmit={onFormSubmit} />
+
+      <Typography variant="body1" gutterBottom component="p" sx={{ textAlign: 'center', margin: '20px 0' }}>
+        <strong>Image: {containerName}</strong>
+      </Typography>
+      <Box sx={{ '& > *': { margin: '10px' } }}>
+        <Button variant="contained" component="label" sx={{ display: 'block' }}>
+          Select File
           <input type="file" hidden onChange={handleFileSelection} />
         </Button>
-        {selectedFile && selectedFile.name && <Typography variant="body2" my={2}>{selectedFile.name}</Typography>}
+        {selectedFile && selectedFile.name && <Typography variant="body2" my={2} sx={{ textAlign: 'center' }}>{selectedFile.name}</Typography>}
         <Button variant="contained" onClick={() => handleFileUpload()} disabled={!selectedFile}>Upload</Button>
-        {uploadStatus && <Typography variant="body2" gutterBottom my={2}>{uploadStatus}</Typography>}
-
-        <Grid container spacing={2} my={4}>
-          {list.map((item) => (
-            <Grid item xs={6} sm={4} md={3} key={item}>
-              <Card>
-                {item.endsWith('.csv') ? (
-                  <Box p={2}>
-                    <Typography variant="body2">{item}</Typography>
-                    {/* Future extension: Add download or view functionality */}
-                  </Box>
-                ) : (
-                  <CardMedia component="img" image={item} alt={item}/>
-                )}
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
       </Box>
-    </ErrorBoundary>
-  );
+      {uploadStatus && <Typography variant="body2" gutterBottom my={2} sx={{ textAlign: 'center' }}>{uploadStatus}</Typography>}
+
+      <Grid container spacing={2} my={4} sx={{ justifyContent: 'center', maxWidth: '100%' }}>
+        {list.map((item) => (
+          <Grid item xs={12} sm={6} md={4} key={item} sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Card sx={{ width: '100%', maxWidth: '300px', m: 1 }}>
+              {item.endsWith('.csv') ? (
+                <Box p={2} sx={{ textAlign: 'center' }}>
+                  <Typography variant="body2">{item}</Typography>
+                </Box>
+              ) : (
+                <CardMedia component="img" image={item} alt={item} />
+              )}
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+  </ErrorBoundary>
+);
 }
 
 export default App;
