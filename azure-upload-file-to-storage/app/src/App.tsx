@@ -81,6 +81,32 @@ function App() {
       });
   };
 
+  // Modified handleDeleteImage to use async/await
+  const handleDeleteImage = async (imageName) => {
+    try {
+      const encodedContainer = encodeURIComponent(containerName);
+      const encodedBlobName = encodeURIComponent(imageName);
+      await request.post(`/api/DeleteBlob?container=${encodedContainer}&blobName=${encodedBlobName}`);
+      setUploadStatus(`${imageName} successfully deleted`);
+      fetchList(); // Consider using await or handling this operation more interactively
+    } catch (error) {
+      const errorMessage = error.response ? error.response.data : 'Failed to delete image';
+      console.error('Error deleting image:', errorMessage);
+      setUploadStatus(errorMessage);
+      // Optional: Show error message in a more user-friendly component
+    }
+  };
+  
+  const fetchList = async () => {
+    try {
+      const { data } = await request.get<ListResponse>(`/api/list?container=${containerName}`);
+      setList(data.list);
+    } catch (error) {
+      console.error('Error fetching list:', error);
+      // Optional: Show error message in a more user-friendly component
+    }
+  };
+
   const handleFileUpload = () => {
     if (sasTokenUrl === '') return;
 
@@ -209,6 +235,13 @@ function App() {
                       {item}
                     </Typography>
                   )}
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => handleDeleteImage(item)}
+                  >
+                    Delete
+                  </Button>
                 </Card>
               </Grid>
             ))}
