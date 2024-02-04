@@ -161,92 +161,101 @@ return (
       {uploadStatus && <Typography variant="body2" gutterBottom my={2} sx={{ textAlign: 'center' }}>{uploadStatus}</Typography>}
 
       <Grid container spacing={2} my={4} sx={{ justifyContent: 'center', maxWidth: '100%' }}>
-  {list.map((item, index) => (
-    <Grid item xs={6} sm={4} md={3} lg={2} key={index} sx={{ display: 'flex', justifyContent: 'center' }}>
-      <Box 
-        sx={{ 
-          width: 145, 
-          height: 145, 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center', 
-          overflow: 'hidden', 
-          position: 'relative',
-          '&:before': {
-            content: "''",
-            display: 'block',
-            position: 'absolute',
-            bottom: 0,
-            width: '100%',
-            height: '20%',
-            backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%)',
-          },
-          '& p': {
-            position: 'absolute',
-            bottom: 5,
-            width: '100%',
-            textAlign: 'center',
-            color: 'white',
-            fontSize: '0.75rem',
-          }
-        }} 
-        onClick={() => handleItemClick(item)}
-      >
-        {item.endsWith('.csv') ? (
-          <Typography>csv file:  calculateTotalScore(dialogContent?.content || "")</Typography>
-        ) : (
-          <CardMedia 
-            component="img" 
-            image={item} 
-            alt="Gallery Item"
-            sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
-        )}
-        <Typography>{item.substring(item.length - 14)}</Typography>
-      </Box>
-    </Grid>
-  ))}
-</Grid>
-<Dialog onClose={() => setOpenDialog(false)} open={openDialog} fullWidth maxWidth="md">
-          <DialogTitle>
-            View Content
-            <IconButton onClick={() => setOpenDialog(false)} style={{ position: 'absolute', right: 8, top: 8 }}>
-              <CloseIcon />
-            </IconButton>
-          </DialogTitle>
-          <DialogContent>
-            {dialogContent?.type === 'image' ? (
-              <Box
-                component="img"
-                sx={{
-                  maxHeight: '80vh',
-                  maxWidth: '100%',
-                }}
-                src={dialogContent.content}
-                alt="Selected"
-              />
-            ) : (
-              <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableBody>
-                    {parseCsvContent(dialogContent?.content || '').map((row, rowIndex) => (
-                      <TableRow
-                        key={rowIndex}
-                        sx={{ '&:nth-of-type(odd)': { backgroundColor: 'action.hover' } }}
-                      >
-                        {row.map((cell, cellIndex) => (
-                          <TableCell key={cellIndex}>
-                            {cell}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            )}
-          </DialogContent>
-        </Dialog>
+        {list.map((item, index) => (
+          <Grid item xs={6} sm={4} md={3} lg={2} key={index} sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box 
+              sx={{ 
+                width: 145, 
+                height: 145, 
+                display: 'flex', 
+                justifyContent: 'center', 
+                alignItems: 'center', 
+                overflow: 'hidden', 
+                position: 'relative',
+                border: '1px solid #ddd',
+                boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                borderRadius: '4px',
+                bgcolor: item.endsWith('.csv') ? '#f0f0f0' : '',
+                '&:before': item.endsWith('.csv') ? undefined : {
+                  content: "''",
+                  display: 'block',
+                  position: 'absolute',
+                  bottom: 0,
+                  width: '100%',
+                  height: '20%',
+                  backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%)',
+                },
+                '& p': {
+                  position: 'absolute',
+                  bottom: 5,
+                  width: '100%',
+                  textAlign: 'center',
+                  color: 'white',
+                  fontSize: '0.75rem',
+                  bgcolor: item.endsWith('.csv') ? '' : 'rgba(0, 0, 0, 0.6)',
+                }
+              }} 
+              onClick={() => handleItemClick(item)}
+            >
+              {item.endsWith('.csv') ? (
+                <>
+                  <Typography variant="caption" sx={{ textAlign: 'center', color:"black", padding:"8px" }}>
+                    {`csv file: ${item.substring(0,10)}...`}
+                  </Typography>
+                </>
+              ) : (
+                <CardMedia 
+                  component="img" 
+                  image={item} 
+                  alt="Gallery Item"
+                  sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              )}
+              <Typography sx={{ color: item.endsWith('.csv') ? 'black' : 'white'}}>{item.substring(item.length - 14)}</Typography>
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
+      <Dialog onClose={() => setOpenDialog(false)} open={openDialog} fullWidth maxWidth="md">
+        <DialogTitle>
+          View Content
+          <IconButton onClick={() => setOpenDialog(false)} style={{ position: 'absolute', right: 8, top: 8 }}>
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          {dialogContent?.type === 'image' ? (
+            <Box
+              component="img"
+              sx={{
+                maxHeight: '80vh',
+                maxWidth: '100%',
+              }}
+              src={dialogContent.content}
+              alt="Selected"
+            />
+          ) : (
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableBody>
+                  {parseCsvContent(dialogContent?.content || '').map((row, rowIndex) => (
+                    <TableRow
+                      key={rowIndex}
+                      sx={{ '&:nth-of-type(odd)': { backgroundColor: 'action.hover' } }}
+                    >
+                      {row.map((cell, cellIndex) => (
+                        <TableCell key={cellIndex}>
+                          {cell}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </DialogContent>
+      </Dialog>
     </Box>
   </ErrorBoundary>
 );
