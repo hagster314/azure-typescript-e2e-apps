@@ -65,10 +65,12 @@ function App() {
     const uploadFile = file || selectedFile;
     if (!uploadFile) return;
 
-    const dateTimePrefix = new Date().toISOString().replace(/:/g, '-');
-    const filename = `${dateTimePrefix}_${file?.name || selectedFile?.name}`;
+    const originalName = file?.name || selectedFile?.name || "unnamed";
+    const dateTimeSuffix = new Date().toISOString().replace(/:/g, '-').replace(/\./g, '-');
+    const filename = `${originalName}_${dateTimeSuffix}`; // Date is now at the end
     const sasUrl = await getUploadSasUrl(filename);
     const blockBlobClient = new BlockBlobClient(sasUrl);
+  
 
 
     blockBlobClient.uploadData(uploadFile, { onProgress: (progress) => console.log(progress.loadedBytes) })
@@ -200,7 +202,7 @@ return (
             sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
         )}
-        <Typography>{item.substring(0,10)}</Typography>
+        <Typography>{item.substring(item.length - 14)}</Typography>
       </Box>
     </Grid>
   ))}
