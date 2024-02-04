@@ -49,12 +49,12 @@
   }
   
   .AssessmentForm-option:hover {
-    border-color: #5c6bc0; /* A color that stands out */
-    background-color: rgba(92, 107, 192, 0.1); /* Light hover background color */
+    border-color: #3b6bc2; /* A color that stands out */
+    background-color: rgba(82, 108, 255, 0.1); /* Light hover background color */
   }
   
   .AssessmentForm-option.selected {
-    background-color: #5c6bc0; /* A color that stands out */
+    background-color: #3b6bc2; /* A color that stands out */
     color: white; /* Text color for selected option */
-    border-color: #5c6bc0; /* Border color to match the background */
+    border-color: #3b6bc2; /* Border color to match the background */
   }

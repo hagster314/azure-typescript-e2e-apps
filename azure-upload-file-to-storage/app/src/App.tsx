@@ -87,7 +87,7 @@ function App() {
       const option = selectedOptions[category];
       csvContent += `${category},${option},${score}\n`;
     });
-    
+
     // Now, create a File object for the CSV
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const csvFileName = `assessment_${new Date().toISOString().replace(/:/g, '-')}.csv`;
@@ -101,11 +101,11 @@ function App() {
     <ErrorBoundary>
       <Box m={4}>
         <Typography variant="h4" gutterBottom>SKIRNIR</Typography>
-        <Typography variant="h5" gutterBottom>wound assessment</Typography>
+        <Typography variant="h5" gutterBottom>Log</Typography>
 
         <AssessmentForm onSubmit={onFormSubmit} />
 
-        <Typography variant="body1" gutterBottom><b>Container: {containerName}</b></Typography>
+        <Typography variant="body1" gutterBottom><b>Image: {containerName}</b></Typography>
         <Button variant="contained" component="label">Select File
           <input type="file" hidden onChange={handleFileSelection} />
         </Button>
