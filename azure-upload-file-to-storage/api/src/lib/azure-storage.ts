@@ -53,6 +53,39 @@ export async function uploadBlob(
   return response.errorCode;
 }
 
+export const deleteBlob = async (
+  serviceName: string,
+  serviceKey: string,
+  containerName: string,
+  blobName: string
+): Promise<{success: boolean; message: string | undefined}> => {
+  if (!serviceName || !serviceKey || !containerName || !blobName) {
+    return {
+      success: false,
+      message: "Delete blob function missing parameters",
+    };
+  }
+
+  try {
+    const blobServiceClient = getBlobServiceClient(serviceName, serviceKey);
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    const blobClient = containerClient.getBlobClient(blobName);
+
+    // Delete the blob
+    await blobClient.delete();
+
+    return {
+      success: true,
+      message: `Successfully deleted blob: ${blobName}`,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : String(error),
+    };
+  }
+};
+
 export const generateSASUrl = async (
   serviceName: string,
   serviceKey: string,
