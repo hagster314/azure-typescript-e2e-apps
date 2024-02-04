@@ -77,13 +77,13 @@ const AssessmentForm: React.FC<AssessmentFormProps> = ({ onSubmit }) => {
               sx={{
                 cursor: 'pointer',
                 borderRadius: '5px',
-                border: `1px solid ${selectedOptions[category] === option ? '#1976d2' : '#ccc'}`,
-                bgcolor: selectedOptions[category] === option ? '#1976d2' : '',
+                border: `1px solid ${selectedOptions[category] === option ? '#607d8b' : '#ccc'}`,
+                bgcolor: selectedOptions[category] === option ? '#607d8b' : '',
                 color: selectedOptions[category] === option ? '#fff' : '',
                 p: 1,
                 m: 1,
                 '&:hover': {
-                  borderColor: '#1976d2',
+                  borderColor: '#607d8b',
                 },
               }}
               onClick={() => handleOptionChange(category, option)}
@@ -95,9 +95,9 @@ const AssessmentForm: React.FC<AssessmentFormProps> = ({ onSubmit }) => {
       </Grid>
     ))}
     <Grid item xs={12}>
-      <Button variant="contained" color="primary" onClick={handleSubmit} fullWidth sx={{ mt: 2 }}>
-        Submit
-      </Button>
+    <Button variant="contained" sx={{ bgcolor: '#00ACC1', '&:hover': { bgcolor: '#0097A7' }, mt: 2 }} onClick={handleSubmit} fullWidth>
+    Submit
+    </Button>
     </Grid>
     <Grid item xs={12}>
       {Object.keys(selectedOptions).length > 0 && (

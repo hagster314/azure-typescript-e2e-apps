@@ -115,12 +115,13 @@ return (
         <strong>Image: {containerName}</strong>
       </Typography>
       <Box sx={{ '& > *': { margin: '10px' } }}>
-        <Button variant="contained" component="label" sx={{ display: 'block' }}>
+        <Button variant="contained" component="label" sx={{ bgcolor: '#00ACC1', '&:hover': { bgcolor: '#0097A7' }, mt: 2 }} fullWidth>
           Select File
           <input type="file" hidden onChange={handleFileSelection} />
         </Button>
+
         {selectedFile && selectedFile.name && <Typography variant="body2" my={2} sx={{ textAlign: 'center' }}>{selectedFile.name}</Typography>}
-        <Button variant="contained" onClick={() => handleFileUpload()} disabled={!selectedFile}>Upload</Button>
+        <Button variant="contained" sx={{ bgcolor: '#00ACC1', '&:hover': { bgcolor: '#0097A7' }, mt: 2 }} fullWidth onClick={() => handleFileUpload()} disabled={!selectedFile}>Upload</Button>
       </Box>
       {uploadStatus && <Typography variant="body2" gutterBottom my={2} sx={{ textAlign: 'center' }}>{uploadStatus}</Typography>}
 
