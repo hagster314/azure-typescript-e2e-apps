@@ -67,7 +67,7 @@ function App() {
 
     const originalName = file?.name || selectedFile?.name || "unnamed";
     const dateTimeSuffix = new Date().toISOString().replace(/:/g, '-').replace(/\./g, '-');
-    const filename = `${originalName}_${dateTimeSuffix}`; // Date is now at the end
+    const filename = `${dateTimeSuffix}_${originalName}`; // Date is now at the start
     const sasUrl = await getUploadSasUrl(filename);
     const blockBlobClient = new BlockBlobClient(sasUrl);
   
@@ -200,7 +200,7 @@ return (
               {item.endsWith('.csv') ? (
                 <>
                   <Typography variant="caption" sx={{ textAlign: 'center', color:"black", padding:"8px" }}>
-                    {`csv file: ${item.substring(0,10)}...`}
+                    {`csv file: ${item.substring(item.length - 20)}...`}
                   </Typography>
                 </>
               ) : (
@@ -211,7 +211,7 @@ return (
                   sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               )}
-              <Typography sx={{ color: item.endsWith('.csv') ? 'black' : 'white'}}>{item.substring(item.length - 14)}</Typography>
+              <Typography sx={{ color: item.endsWith('.csv') ? 'black' : 'white'}}>{item.substring(item.length - 20)}</Typography>
             </Box>
           </Grid>
         ))}
