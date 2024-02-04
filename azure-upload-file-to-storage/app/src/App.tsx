@@ -8,7 +8,9 @@ import './App.css';
 // Import or define SelectedOptions and OptionScores types based on your AssessmentForm
 import AssessmentForm, { SelectedOptions, OptionScores } from './AssessmentForm';
 import { Dialog, DialogTitle, DialogContent, IconButton } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableRow, Paper } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+
 
 
 const API_SERVER = import.meta.env.VITE_API_SERVER;
@@ -40,6 +42,11 @@ function App() {
       console.error('Error fetching files:', error);
     }
   };
+
+  const parseCsvContent = (csvText: string) => {
+    return csvText.split('\n').map(row => row.split(','));
+  };
+
 
   const getUploadSasUrl = async (filename: string) => {
     const permission = 'w'; // write
@@ -115,7 +122,7 @@ function App() {
       csvContent += `${category},${option},${score}\n`;
     });
 
-    const csvFileName = `assessment_score_${totalScore}_${new Date().toISOString().replace(/:/g, '-')}.csv`;
+    const csvFileName = `${totalScore}_${new Date().toISOString().replace(/:/g, '-')}.csv`;
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const csvFile = new File([blob], csvFileName, { type: 'text/csv;charset=utf-8;' });
   
@@ -184,7 +191,7 @@ return (
         onClick={() => handleItemClick(item)}
       >
         {item.endsWith('.csv') ? (
-          <Typography>CSV File</Typography>
+          <Typography>csv file:  calculateTotalScore(dialogContent?.content || "")</Typography>
         ) : (
           <CardMedia 
             component="img" 
@@ -193,38 +200,51 @@ return (
             sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
         )}
-        <Typography>{new Date(item.split("_")[0]).toLocaleDateString()}</Typography>
+        <Typography>{item.substring(0,10)}</Typography>
       </Box>
     </Grid>
   ))}
 </Grid>
 <Dialog onClose={() => setOpenDialog(false)} open={openDialog} fullWidth maxWidth="md">
-  <DialogTitle>
-    View Content
-    <IconButton onClick={() => setOpenDialog(false)} style={{ position: 'absolute', right: 8, top: 8 }}>
-      <CloseIcon />
-    </IconButton>
-  </DialogTitle>
-  <DialogContent>
-    {dialogContent?.type === 'image' ? (
-      <Box
-        component="img"
-        sx={{
-          maxHeight: '80vh',
-          maxWidth: '100%',
-        }}
-        src={dialogContent.content}
-        alt="Selected"
-      />
-    ) : (
-      <>
-      <Typography variant="h4" sx={{ textAlign: 'center', mb: 2 }}>
-        csv file:  
-      </Typography>
-    </>
-    )}
-  </DialogContent>
-</Dialog>
+          <DialogTitle>
+            View Content
+            <IconButton onClick={() => setOpenDialog(false)} style={{ position: 'absolute', right: 8, top: 8 }}>
+              <CloseIcon />
+            </IconButton>
+          </DialogTitle>
+          <DialogContent>
+            {dialogContent?.type === 'image' ? (
+              <Box
+                component="img"
+                sx={{
+                  maxHeight: '80vh',
+                  maxWidth: '100%',
+                }}
+                src={dialogContent.content}
+                alt="Selected"
+              />
+            ) : (
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                  <TableBody>
+                    {parseCsvContent(dialogContent?.content || '').map((row, rowIndex) => (
+                      <TableRow
+                        key={rowIndex}
+                        sx={{ '&:nth-of-type(odd)': { backgroundColor: 'action.hover' } }}
+                      >
+                        {row.map((cell, cellIndex) => (
+                          <TableCell key={cellIndex}>
+                            {cell}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+          </DialogContent>
+        </Dialog>
     </Box>
   </ErrorBoundary>
 );
