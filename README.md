@@ -1,19 +1,7 @@
----
-name: Azure TypeScript apps
-description: A variety of TypeScript apps to deploy on Azure or integrate with Azure services.
-page_type: sample
-languages:
-- javascript
-- typescript
-products:
-- azure-app-service
-- azure-functions
-- 
----
+
 
 # Azure TypeScript E2E apps
 
-A monorepo of apps used with the Azure cloud. 
 SKIRNIR portal is located in "azure-upload-file-to-storage"
 
 ## Features
