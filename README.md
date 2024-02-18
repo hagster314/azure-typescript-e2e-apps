@@ -14,6 +14,7 @@ products:
 # Azure TypeScript E2E apps
 
 A monorepo of apps used with the Azure cloud. 
+SKIRNIR portal is located in "azure-upload-file-to-storage"
 
 ## Features
 
